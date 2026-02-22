@@ -2,3 +2,5 @@ nmap
 medusa
 net-tools
 iputils-ping
+smbclient
+samba-common-bin
