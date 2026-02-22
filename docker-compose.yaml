@@ -1,0 +1,22 @@
+services:
+  kali-atacante:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: atacante         
+    tty: true                        
+    stdin_open: true                
+    networks:
+      - rede-vulneravel        
+    
+  alvo-vulneravel:
+    image: tleemcjr/metasploitable2
+    container_name: alvo
+    tty: true         
+    stdin_open: true  
+    networks:
+      - rede-vulneravel
+
+networks:
+  rede-vulneravel:
+    driver: bridge

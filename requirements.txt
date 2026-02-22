@@ -1,0 +1,4 @@
+nmap
+medusa
+net-tools
+iputils-ping
